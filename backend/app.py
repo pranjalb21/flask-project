@@ -28,6 +28,13 @@ result = [
     }
 ]
 
+@app.route('/api/submittodoitem', methods=['POST'])
+def submit_todo_item():
+    data = dict(request.json)
+    collection.insert_one(dict(data))
+    return 'Todo submitted successfully'
+
+
 @app.route('/api/submit', methods=['POST'])
 def submit_data():
     data = dict(request.json)
