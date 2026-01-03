@@ -11,7 +11,9 @@ DB_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("DB_NAME")
 client = MongoClient(DB_URI)
 db = client.get_database(DB_NAME)
-collection = db["items"]
+items = db["items"]
+todos = db["todos"]
+
 
 result = [
     {
@@ -31,21 +33,19 @@ result = [
 @app.route('/api/submittodoitem', methods=['POST'])
 def submit_todo_item():
     data = dict(request.json)
-    collection.insert_one(dict(data))
+    todos.insert_one(dict(data))
     return 'Todo submitted successfully'
 
 
 @app.route('/api/submit', methods=['POST'])
 def submit_data():
     data = dict(request.json)
-
-    collection.insert_one(dict(data))
-    
+    items.insert_one(dict(data))
     return 'Data submitted successfully'
 
 @app.route('/api/view', methods=['GET'])
 def view():
-    data = collection.find()
+    data = items.find()
     data = list(data)
     for item in data:
         print(item)
@@ -53,7 +53,6 @@ def view():
     data = {
         'data': data
     }
-
     return data
 
 @app.route('/api', methods=['GET'])
