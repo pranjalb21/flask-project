@@ -24,6 +24,17 @@ def submit():
     requests.post(f'{backend_uri}/api/submit', json=form_data)
     return 'Data submitted successfully'
 
+@app.route('/todo')
+def todo():
+    return render_template('todo.html')
+
+@app.route('/submittodoitem', methods=['POST'])
+def submit_todo():
+    form_data = request.form.to_dict()
+    print(form_data)
+    requests.post(f'{backend_uri}/api/submittodoitem', json=form_data)
+    return 'Todo submitted successfully'
+
 if __name__ == '__main__':
     port = int(os.getenv('FRONTEND_PORT', 5001))
     app.run(host = '0.0.0.0', port=port, debug=True)
